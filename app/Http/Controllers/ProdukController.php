@@ -14,14 +14,20 @@ class ProdukController extends Controller
     }
 
     // show data by id
-    public function show($id){
+    public function show($id)
+    {
         $produk = Produk::find($id);
+        if(!$produk) {
+            return response()->json(['status' => 404, 'message' => 'Data Produk not found!'], 404);
+        }
+        
         return response()->json($produk);
     }
 
     // create data produk
-    public function create(Request $request){
-        // validate data produk
+    public function create(Request $request)
+    {
+        // validasi data produk
         $this->validate($request, [
             'nama'=>'required|string',
             'harga'=>'required|integer',
@@ -34,5 +40,28 @@ class ProdukController extends Controller
         $produk = Produk::create($data);
 
         return response()->json();
+    }
+
+    // update data produk
+    public function update(Request $request, $id)
+    {
+        $produk = Produk::find($id);
+        if(!$produk) {
+            return response()->json(['status' => 404, 'message' => 'Data Produk not found!'], 404);
+        }
+
+        $this->validate($request, [
+            'nama'=>'string',
+            'harga'=>'integer',
+            'warna'=>'string',
+            'kondisi'=>'in:baru,lama',
+            'deskripsi'=>'string'
+            ]);
+            
+        $data = $request->all();
+        $produk->fill($data);
+        $produk->save();
+
+        return response()->json($produk);
     }
 }
