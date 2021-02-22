@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 class ProdukController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     // get data produk
     public function index(){
         $produk = Produk::all();
