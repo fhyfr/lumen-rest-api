@@ -6,6 +6,20 @@ use Illuminate\Http\Request;
 
 class ProdukController extends Controller
 {
+
+    // get data produk
+    public function index(){
+        $produk = Produk::all();
+        return response()->json($produk);
+    }
+
+    // show data by id
+    public function show($id){
+        $produk = Produk::find($id);
+        return response()->json($produk);
+    }
+
+    // create data produk
     public function create(Request $request){
         // validate data produk
         $this->validate($request, [
