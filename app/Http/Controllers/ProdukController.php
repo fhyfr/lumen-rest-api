@@ -18,9 +18,9 @@ class ProdukController extends Controller
     {
         $produk = Produk::find($id);
         if(!$produk) {
-            return response()->json(['status' => 404, 'message' => 'Data Produk not found!'], 404);
+            return response()->json(['status' => 404, 'message' => 'Data produk not found!'], 404);
         }
-        
+
         return response()->json($produk);
     }
 
@@ -47,7 +47,7 @@ class ProdukController extends Controller
     {
         $produk = Produk::find($id);
         if(!$produk) {
-            return response()->json(['status' => 404, 'message' => 'Data Produk not found!'], 404);
+            return response()->json(['status' => 404, 'message' => 'Data produk not found!'], 404);
         }
 
         $this->validate($request, [
@@ -63,5 +63,17 @@ class ProdukController extends Controller
         $produk->save();
 
         return response()->json($produk);
+    }
+
+    // delete data produk
+    public function destroy($id)
+    {
+        $produk = Produk::find($id);
+        if(!$produk) {
+            return response()->json(['status' => 404, 'message' => 'Data produk not found!'], 404);
+        }
+
+        $produk->delete();
+        return response()->json(['message'=>'Produk sucessfully deleted!']);
     }
 }
